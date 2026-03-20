@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Used Honda Jade 250 Finder</title>
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --accent: #E74C3C;
+            --bg: #F4F7F6;
+            --surface: #FFFFFF;
+            --text-main: #333333;
+            --text-light: #7F8C8D;
+            --available: #27AE60;
+            --sold: #E74C3C;
+            --border: #E0E6ED;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 5%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin-top: 0.5rem;
+            color: #BDC3C7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Styles */
+        .form-panel {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 2rem;
+        }
+
+        .form-panel h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #FAFAFA;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #FFF;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+
+        .form-group.checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group.checkbox label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .form-group.checkbox input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #1a252f;
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        button.btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            margin-top: 0.8rem;
+        }
+
+        button.btn-outline:hover {
+            background-color: rgba(44, 62, 80, 0.05);
+        }
+
+        /* Bike Cards Grid */
+        .bike-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-img-container {
+            height: 200px;
+            background-color: #E2E8F0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-img-placeholder {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .status-available { background-color: var(--available); }
+        .status-sold { background-color: var(--sold); }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-price {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .card-details {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-details p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .btn-small {
+            padding: 0.6rem;
+            font-size: 0.85rem;
+            flex: 1;
+            border-radius: 4px;
+        }
+        
+        .btn-view { background-color: #3498DB; }
+        .btn-view:hover { background-color: #2980B9; }
+        .btn-edit { background-color: #F39C12; color: white; }
+        .btn-edit:hover { background-color: #D68910; }
+        .btn-delete { background-color: var(--accent); }
+        .btn-delete:hover { background-color: #C0392B; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: auto;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+            background: none;
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0;
+        }
+
+        .modal-nav:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev { left: -70px; }
+        .modal-next { right: -70px; }
+        
+        @media (max-width: 768px) {
+            .modal-prev { left: 10px; }
+            .modal-next { right: 10px; }
+        }
+
+        .modal-counter {
+            color: white;
+            margin-top: 15px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Loading Overlay */
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .loader-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #E0E6ED;
+            border-top: 5px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 2px dashed var(--border);
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏍️ Used Honda Jade 250 Finder</h1>
+        <p>Discover, Manage, and List the Best Honda Jade 250 Bikes</p>
+    </header>
+
+    <div class="container">
+        <!-- Add / Update Form -->
+        <aside class="form-panel">
+            <h2 id="formTitle">Add New Bike Listing</h2>
+            <form id="bikeForm">
+                <input type="hidden" id="editId">
+                
+                <div class="form-group">
+                    <label>Seller's Name *</label>
+                    <input type="text" id="sellerName" required placeholder="e.g. Nimal Perera">
+                </div>
+                
+                <div class="form-group">
+                    <label>Vehicle Number *</label>
+                    <input type="text" id="vehicleNumber" required placeholder="e.g. BAA-1234">
+                </div>
+                
+                <div class="form-group">
+                    <label>Owner Contact Number *</label>
+                    <input type="text" id="ownerContact" required placeholder="e.g. 077 123 4567">
+                </div>
+                
+                <div class="form-group">
+                    <label>Location *</label>
+                    <input type="text" id="location" required placeholder="e.g. Colombo, Nugegoda">
+                </div>
+                
+                <div class="form-group">
+                    <label>Chassis Number *</label>
+                    <input type="text" id="chassisNumber" required placeholder="e.g. MC23-100XXXX">
+                </div>
+                
+                <div class="form-group">
+                    <label>Manufacture Year *</label>
+                    <input type="number" id="year" required min="1990" max="2025" placeholder="e.g. 1996">
+                </div>
+                
+                <div class="form-group">
+                    <label>Price (LKR) *</label>
+                    <input type="number" id="price" required min="0" placeholder="e.g. 850000">
+                </div>
+                
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="allPartsOriginal">
+                    <label for="allPartsOriginal">All Parts Original</label>
+                </div>
+                
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="visit">
+                    <label for="visit">Available for Visit/Inspection</label>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status">
+                        <option value="Available">Available</option>
+                        <option value="Sold">Sold</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description (Optional)</label>
+                    <textarea id="description" rows="3" placeholder="Condition details, recent repairs, modifications..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Photos (Select multiple)</label>
+                    <input type="file" id="photos" multiple accept="image/*">
+                    <small id="formPhotoHelper" style="display:block; margin-top:0.5rem; color:var(--text-light); font-size:0.85rem;">
+                        Select multiple files. Leave empty when updating to keep existing photos.
+                    </small>
+                </div>
+                
+                <button type="submit" id="submitBtn">Save Bike</button>
+                <button type="button" class="btn-outline" id="cancelEditBtn" style="display: none;">Cancel Edit</button>
+            </form>
+        </aside>
+
+        <!-- Listings Grid -->
+        <main>
+            <div id="bikeListing" class="bike-grid">
+                <!-- Data will be dynamically injected here via Firebase -->
+                <div class="empty-state">
+                    <h3>Loading Data...</h3>
+                    <p>Connecting to database...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Image Modal Viewer -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <button class="modal-nav modal-prev" id="modalPrev">&#10094;</button>
+            <img class="modal-img" id="modalImage" src="" alt="Bike Photo">
+            <button class="modal-nav modal-next" id="modalNext">&#10095;</button>
+            <div id="modalCounter" class="modal-counter"></div>
+        </div>
+    </div>
+
+    <!-- Full Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content" style="background: var(--surface); padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; color: var(--text-main); align-items: flex-start; text-align: left;">
+            <button class="modal-close" style="color: var(--text-light); top: 15px; right: 20px; font-size: 2rem;" id="detailClose">&times;</button>
+            <h2 id="detailTitle" style="color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem; width: 100%;">Bike Details</h2>
+            <div id="detailContent" style="font-size: 1.05rem; line-height: 1.8; width: 100%;"></div>
+            <button id="detailPhotosBtn" style="margin-top: 1.5rem; background-color: var(--primary); width: 100%;">View Photos</button>
+        </div>
+    </div>
+
+    <!-- Full Screen Loader Overlay -->
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
+        <div class="loader-text" id="loaderText">Processing...</div>
+    </div>
+
+    <!-- Firebase SDK (ES Modules via CDN) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+        // ==========================================
+        // 1. CONFIGURATION
+        // ==========================================
+        const cloudinaryConfig = {
+            cloudName: 'dv9logzpe',
+            uploadPreset: 'find_jade', // USER: Ensure this unsigned preset matches exactly in Cloudinary
+            uploadUrl: 'https://api.cloudinary.com/v1_1/dv9logzpe/image/upload'
+        };
+
+        // USER MUST REPLACE THIS WITH ACTUAL FIREBASE CONFIG
+        // (Placeholder block below points to a non-existent DB until replaced)
+       const firebaseConfig = {
+  apiKey: "AIzaSyAbX332RmKVInkk-CDEwuSHnWiHhWLlnBs",
+  authDomain: "bike-finder-app-ffe9b.firebaseapp.com",
+  databaseURL: "https://bike-finder-app-ffe9b-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bike-finder-app-ffe9b",
+  storageBucket: "bike-finder-app-ffe9b.firebasestorage.app",
+  messagingSenderId: "971325498313",
+  appId: "1:971325498313:web:eb6df17afe60a625c57e18",
+  measurementId: "G-BCVQQ4JDVG"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const bikesCollection = collection(db, "bikes");
+
+        // ==========================================
+        // 2. DOM ELEMENTS
+        // ==========================================
+        const form = document.getElementById('bikeForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const formTitle = document.getElementById('formTitle');
+        const grid = document.getElementById('bikeListing');
+        
+        // Loader elements
+        const loader = document.getElementById('loader');
+        const loaderText = document.getElementById('loaderText');
+        
+        // Modal elements
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        const modalCounter = document.getElementById('modalCounter');
+
+        // Detail Modal elements
+        const detailModal = document.getElementById('detailModal');
+        const detailClose = document.getElementById('detailClose');
+        const detailContent = document.getElementById('detailContent');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailPhotosBtn = document.getElementById('detailPhotosBtn');
+
+        // State Manager
+        let currentModalImages = [];
+        let currentModalIndex = 0;
+        let globalBikesData = {}; 
+
+        // ==========================================
+        // 3. EVENT LISTENERS
+        // ==========================================
+        form.addEventListener('submit', handleFormSubmit);
+        cancelEditBtn.addEventListener('click', resetForm);
+        
+        modalClose.addEventListener('click', closeModal);
+        modalPrev.addEventListener('click', () => navigateModal(-1));
+        modalNext.addEventListener('click', () => navigateModal(1));
+        
+        // Close modal when clicking outside the image
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+            if (e.target === detailModal) detailModal.classList.remove('active');
+        });
+
+        detailClose.addEventListener('click', () => detailModal.classList.remove('active'));
+
+        // Keyboard navigation for modal
+        window.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'ArrowRight') navigateModal(1);
+            if (e.key === 'ArrowLeft') navigateModal(-1);
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ==========================================
+        // 4. FIREBASE REAL-TIME LISTENER
+        // ==========================================
+        onSnapshot(bikesCollection, (snapshot) => {
+            grid.innerHTML = '';
+            globalBikesData = {};
+            
+            if (snapshot.empty) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Bikes Listed Yet</h3>
+                        <p>Be the first to add a Honda Jade 250 using the form on the left!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                globalBikesData[id] = data; // Cache data for editing
+                renderBikeCard(id, data);
+            });
+        }, (error) => {
+            console.error("Firestore Listen Error: ", error);
+            grid.innerHTML = `
+                <div class="empty-state" style="border-color: var(--accent);">
+                    <h3 style="color: var(--accent)">Connection Error</h3>
+                    <p>Could not connect to database. Please make sure you added your Firebase Config in index.html.</p>
+                </div>
+            `;
+        });
+
+        // ==========================================
+        // 5. CORE CONTROLLERS
+        // ==========================================
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('editId').value;
+            const fileInput = document.getElementById('photos');
+            const files = fileInput.files;
+
+            try {
+                showLoader(id ? "Updating bike record..." : "Processing images & saving...");
+                
+                let photoUrls = [];
+
+                // 1. Upload logic based on file presence
+                if (files.length > 0) {
+                    photoUrls = await uploadImagesToCloudinary(files);
+                } else if (id && globalBikesData[id]) {
+                    // Keep old photos if updating and no new photos provided
+                    photoUrls = globalBikesData[id].photos || [];
+                }
+
+                // 2. Build Document Payload
+                const bikeData = {
+                    sellerName: document.getElementById('sellerName').value.trim(),
+                    vehicleNumber: document.getElementById('vehicleNumber').value.trim(),
+                    ownerContact: document.getElementById('ownerContact').value.trim(),
+                    location: document.getElementById('location').value.trim(),
+                    chassisNumber: document.getElementById('chassisNumber').value.trim(),
+                    year: parseInt(document.getElementById('year').value),
+                    price: parseFloat(document.getElementById('price').value),
+                    allPartsOriginal: document.getElementById('allPartsOriginal').checked,
+                    visit: document.getElementById('visit').checked,
+                    status: document.getElementById('status').value,
+                    description: document.getElementById('description').value.trim(),
+                    photos: photoUrls,
+                    updatedAt: serverTimestamp()
+                };
+
+                // 3. Save to Firestore
+                if (id) {
+                    const docRef = doc(db, "bikes", id);
+                    await updateDoc(docRef, bikeData);
+                } else {
+                    bikeData.createdAt = serverTimestamp();
+                    await addDoc(bikesCollection, bikeData);
+                }
+
+                resetForm();
+                
+            } catch (error) {
+                console.error("Save Error: ", error);
+                alert("Operation failed:\n" + error.message);
+            } finally {
+                hideLoader();
+            }
+        }
+
+        async function uploadImagesToCloudinary(files) {
+            const urls = [];
+            for (let i = 0; i < files.length; i++) {
+                const formData = new FormData();
+                formData.append('file', files[i]);
+                formData.append('upload_preset', cloudinaryConfig.uploadPreset);
+
+                loaderText.innerText = `Uploading photo ${i + 1} of ${files.length}...`;
+
+                const res = await fetch(cloudinaryConfig.uploadUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!res.ok) {
+                    let errText = "Cloudinary upload failed.";
+                    try {
+                        const errJson = await res.json();
+                        if(errJson.error && errJson.error.message) {
+                            errText += " " + errJson.error.message;
+                        }
+                    } catch(e) {}
+                    throw new Error(errText);
+                }
+
+                const data = await res.json();
+                urls.push(data.secure_url);
+            }
+            return urls;
+        }
+
+        // Expose globally for inline onclick handlers inside dynamically generated cards
+        window.editBike = (id) => {
+            const data = globalBikesData[id];
+            if (!data) return;
+
+            document.getElementById('editId').value = id;
+            document.getElementById('sellerName').value = data.sellerName || '';
+            document.getElementById('vehicleNumber').value = data.vehicleNumber || '';
+            document.getElementById('ownerContact').value = data.ownerContact || '';
+            document.getElementById('location').value = data.location || '';
+            document.getElementById('chassisNumber').value = data.chassisNumber || '';
+            document.getElementById('year').value = data.year || '';
+            document.getElementById('price').value = data.price || '';
+            document.getElementById('allPartsOriginal').checked = !!data.allPartsOriginal;
+            document.getElementById('visit').checked = !!data.visit;
+            document.getElementById('status').value = data.status || 'Available';
+            document.getElementById('description').value = data.description || '';
+            
+            formTitle.innerText = "Edit Bike: " + data.vehicleNumber;
+            submitBtn.innerText = "Update Bike";
+            cancelEditBtn.style.display = 'block';
+            
+            // Scroll to the top where form is located
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.deleteBike = async (id) => {
+            if (confirm("Permanently delete this bike listing? This action cannot be undone.")) {
+                showLoader("Deleting record...");
+                try {
+                    await deleteDoc(doc(db, "bikes", id));
+                } catch (error) {
+                    console.error("Delete Error: ", error);
+                    alert("Error deleting:\n" + error.message);
+                } finally {
+                    hideLoader();
+                }
+            }
+        };
+
+        window.openPhotos = (id) => {
+            const data = globalBikesData[id];
+            if (!data || !data.photos || data.photos.length === 0) {
+                alert("No photos were uploaded for this bike.");
+                return;
+            }
+            
+            currentModalImages = data.photos;
+            currentModalIndex = 0;
+            updateModalView();
+            modal.classList.add('active');
+        };
+
+        // ==========================================
+        // 6. UI COMPONENT HELPERS
+        // ==========================================
+
+        window.openDetailModal = (id) => {
+            const data = globalBikesData[id];
+            if (!data) return;
+            
+            const priceFormatted = new Intl.NumberFormat('en-LK').format(data.price || 0);
+            
+            detailTitle.innerText = `${data.vehicleNumber} (${data.year})`;
+            detailContent.innerHTML = `
+                <p><strong>Seller Name:</strong> ${data.sellerName || 'N/A'}</p>
+                <p><strong>Contact:</strong> ${data.ownerContact}</p>
+                <p><strong>Location:</strong> ${data.location}</p>
+                <p><strong>Price:</strong> Rs. ${priceFormatted}</p>
+                <p><strong>Chassis Number:</strong> ${data.chassisNumber}</p>
+                <p><strong>Status:</strong> ${data.status}</p>
+                <p><strong>Original Parts:</strong> ${data.allPartsOriginal ? 'Yes' : 'No'}</p>
+                <p><strong>Available for Visit:</strong> ${data.visit ? 'Yes' : 'No'}</p>
+                <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <strong>Description:</strong><br/>
+                    ${data.description ? data.description.replace(/\\n/g, '<br>') : 'No description provided.'}
+                </p>
+            `;
+            
+            detailPhotosBtn.style.display = (data.photos && data.photos.length > 0) ? 'block' : 'none';
+            detailPhotosBtn.onclick = () => {
+                detailModal.classList.remove('active');
+                openPhotos(id);
+            };
+            
+            detailModal.classList.add('active');
+        };
+        
+        function renderBikeCard(id, data) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.cursor = 'pointer';
+            card.onclick = (e) => {
+                if (e.target.closest('.card-actions')) return;
+                openDetailModal(id);
+            };
+            
+            const firstPhoto = data.photos && data.photos.length > 0 ? data.photos[0] : null;
+            const photoCount = data.photos ? data.photos.length : 0;
+            const statusClass = data.status === 'Sold' ? 'status-sold' : 'status-available';
+            const priceFormatted = new Intl.NumberFormat('en-LK').format(data.price || 0);
+            
+            let badgesHTML = '';
+            if (data.allPartsOriginal) badgesHTML += '✨ Original Parts | ';
+            if (data.visit) badgesHTML += '👀 Visit OK';
+            if (badgesHTML.endsWith(' | ')) badgesHTML = badgesHTML.slice(0, -3);
+
+            card.innerHTML = `
+                <div class="card-img-container">
+                    ${firstPhoto ? `<img src="${firstPhoto}" class="card-img" alt="Bike">` : `<div class="card-img-placeholder">📸 No Image</div>`}
+                    <div class="status-badge ${statusClass}">${data.status || 'Available'}</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">
+                        ${data.vehicleNumber}
+                        <span style="font-size:0.9rem; color:var(--text-light); font-weight:normal;">${data.year}</span>
+                    </h3>
+                    <div class="card-price">Rs. ${priceFormatted}</div>
+                    
+                    <div class="card-details">
+                        <p>📍 ${data.location}</p>
+                        <p>📞 ${data.ownerContact}</p>
+                        <p>⚙️ ${data.chassisNumber}</p>
+                        <p style="color: var(--primary); font-weight: 600; font-size: 0.85rem;">
+                            ${badgesHTML ? badgesHTML : '<span style="color: transparent">.</span>'}
+                        </p>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn-small btn-view" onclick="openPhotos('${id}')">🖼️ ${photoCount}</button>
+                        <button class="btn-small btn-edit" onclick="editBike('${id}')">✏️ Edit</button>
+                        <button class="btn-small btn-delete" onclick="deleteBike('${id}')">🗑️ Delete</button>
+                    </div>
+                </div>
+            `;
+            
+            grid.appendChild(card);
+        }
+
+        function resetForm() {
+            form.reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('photos').value = '';
+            formTitle.innerText = "Add New Bike Listing";
+            submitBtn.innerText = "Save Bike";
+            cancelEditBtn.style.display = 'none';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            currentModalImages = [];
+        }
+
+        function navigateModal(direction) {
+            if (currentModalImages.length === 0) return;
+            
+            currentModalIndex += direction;
+            
+            // Loop array boundaries
+            if (currentModalIndex < 0) currentModalIndex = currentModalImages.length - 1;
+            if (currentModalIndex >= currentModalImages.length) currentModalIndex = 0;
+            
+            updateModalView();
+        }
+
+        function updateModalView() {
+            if (currentModalImages.length > 0) {
+                // To avoid flashing the previous image while loading the new one, we could set a tiny timeout
+                // or just swap it directly.
+                modalImg.src = currentModalImages[currentModalIndex];
+                modalCounter.innerText = `Photo ${currentModalIndex + 1} of ${currentModalImages.length}`;
+            }
+        }
+
+        function showLoader(text) {
+            loaderText.innerText = text || "Processing...";
+            loader.classList.add('active');
+        }
+
+        function hideLoader() {
+            loader.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
